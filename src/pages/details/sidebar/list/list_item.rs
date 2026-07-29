@@ -29,7 +29,7 @@ pub struct Widgets {
     title: gtk::Label,
     description: gtk::Label,
     icon: gtk::Image,
-    thumbnail: gtk::Image,
+    thumbnail: gtk::Picture,
     progress: gtk::ProgressBar,
     root: gtk::Box,
 }
@@ -51,10 +51,10 @@ impl RelmListItem for ListItem {
                     set_expand: true,
 
                     #[name = "thumbnail"]
-                    gtk::Image {
-                        set_width_request: 100,
-                        set_height_request: 56,
-                        set_icon_size: gtk::IconSize::Large,
+                    gtk::Picture {
+                        set_width_request: 160,
+                        set_height_request: 90,
+                        set_content_fit: gtk::ContentFit::Cover,
                     },
 
                     gtk::Box {
@@ -150,15 +150,14 @@ impl RelmListItem for ListItem {
             if self.active { &["episode-active"] } else { &[] as &[&str] }
         );
 
-        // Thumbnail — start with placeholder, then try to load
-        thumbnail.set_icon_name(Some("video-x-generic-symbolic"));
+        // Thumbnail — load from URL or leave empty (Picture shows nothing when no paintable set)
         if let Some(url_str) = &self.image {
             if !url_str.is_empty() {
                 if let Ok(url) = Url::parse(url_str) {
                     let thumb = thumbnail.clone();
                     let url_clone = url.clone();
                     relm4::spawn_local(async move {
-                        if let Ok(texture) = image::load_as_texture(url_clone, (200, 112)).await {
+                        if let Ok(texture) = image::load_as_texture(url_clone, (320, 180)).await {
                             thumb.set_paintable(Some(&texture));
                         }
                     });
