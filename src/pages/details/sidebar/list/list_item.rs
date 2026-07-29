@@ -68,12 +68,12 @@ impl RelmListItem for ListItem {
 
                             #[name = "number"]
                             gtk::Label {
-                                add_css_class: css::classes::CAPTION,
-                                set_width_request: 28,
+                                set_width_request: 32,
                             },
 
                             #[name = "title"]
                             gtk::Label {
+                                add_css_class: css::classes::BODY,
                                 set_halign: gtk::Align::Start,
                                 set_ellipsize: gtk::pango::EllipsizeMode::End,
                                 set_single_line_mode: true,
@@ -82,7 +82,7 @@ impl RelmListItem for ListItem {
 
                         #[name = "description"]
                         gtk::Label {
-                            set_css_classes: &[relm4::css::classes::DIM_LABEL, relm4::css::classes::CAPTION],
+                            set_css_classes: &[relm4::css::classes::BODY],
                             set_halign: gtk::Align::Start,
                             set_ellipsize: gtk::pango::EllipsizeMode::End,
                             set_single_line_mode: true,

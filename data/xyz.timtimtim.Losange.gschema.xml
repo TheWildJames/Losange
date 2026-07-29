@@ -41,5 +41,9 @@
             <default>false</default>
             <summary>Open details screen on click instead of playing</summary>
         </key>
+        <key name="image-cache-max" type="i">
+            <default>200</default>
+            <summary>Maximum number of cached images</summary>
+        </key>
     </schema>
 </schemalist>

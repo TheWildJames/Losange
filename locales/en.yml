@@ -9,6 +9,10 @@ subtitles: Subtitles
 playback: Playback
 auto_play: Auto play next video
 click_opens_details: Open details on click
+image_cache: Image Cache
+image_cache_max: Max cached images
+image_cache_clear: Clear image cache
+image_cache_cleared: Image cache cleared
 
 shortcut_search: Open Search
 shortcut_preferences: Edit Preferences

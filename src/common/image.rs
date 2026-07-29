@@ -1,7 +1,6 @@
 use std::io::Cursor;
 use std::sync::LazyLock;
 
-use super::net;
 use color_thief::{get_palette, ColorFormat};
 use dashmap::DashMap;
 use gtk::gdk::{MemoryFormat, MemoryTexture};
@@ -13,7 +12,17 @@ use itertools::Itertools;
 use relm4::gtk;
 use url::Url;
 
-static IMAGE_CACHE: LazyLock<DashMap<Url, MemoryTexture>> = LazyLock::new(DashMap::new);
+use crate::common::net;
+
+pub static IMAGE_CACHE: LazyLock<DashMap<Url, MemoryTexture>> = LazyLock::new(DashMap::new);
+
+pub fn clear_image_cache() {
+    IMAGE_CACHE.clear();
+}
+
+pub fn image_cache_size() -> usize {
+    IMAGE_CACHE.len()
+}
 
 pub async fn load_as_texture(uri: Url, size: (i32, i32)) -> anyhow::Result<MemoryTexture> {
     let key = uri.clone();

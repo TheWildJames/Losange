@@ -22,6 +22,8 @@ pub enum PreferencesDialogInput {
     CatalogsIconChanged(bool),
     CatalogsAddonNameChanged(bool),
     ContentTitlesBelowChanged(bool),
+    ImageCacheMaxChanged(i32),
+    ImageCacheClear,
     ClickOpensDetailsChanged(bool),
     DetailsContentColorsChanged(bool),
     DetailsContentLogoChanged(bool),
@@ -223,6 +225,39 @@ impl Component for PreferencesDialog {
             },
 
             add = &adw::PreferencesPage {
+                set_name: Some("cache"),
+                set_title: &t!("image_cache"),
+                set_icon_name: Some("preferences-system-symbolic"),
+                set_margin_bottom: 26,
+
+                add = &adw::PreferencesGroup {
+                    adw::SpinRow::with_range(10.0, 1000.0, 10.0) {
+                        set_title: &t!("image_cache_max"),
+
+                        #[watch]
+                        set_value: model.settings.int("image-cache-max").into(),
+
+                        connect_value_notify[sender] => move |row| {
+                            let value = row.value() as i32;
+                            sender.input(PreferencesDialogInput::ImageCacheMaxChanged(value));
+                        },
+                    },
+
+                    adw::ActionRow {
+                        set_title: &t!("image_cache_clear"),
+
+                        add_suffix = &gtk::Button {
+                            add_css_class: css::classes::DESTRUCTIVE_ACTION,
+                            set_label: &t!("image_cache_clear"),
+                            connect_clicked[sender] => move |_| {
+                                sender.input(PreferencesDialogInput::ImageCacheClear);
+                            },
+                        }
+                    },
+                }
+            },
+
+            add = &adw::PreferencesPage {
                 set_name: Some("server"),
                 set_title: &t!("server"),
                 set_icon_name: Some("network-server-symbolic"),
@@ -310,6 +345,12 @@ impl Component for PreferencesDialog {
             }
             PreferencesDialogInput::CatalogsAddonNameChanged(value) => {
                 let _ = self.settings.set_boolean("catalog-addon-name", value);
+            }
+            PreferencesDialogInput::ImageCacheMaxChanged(value) => {
+                let _ = self.settings.set_int("image-cache-max", value);
+            }
+            PreferencesDialogInput::ImageCacheClear => {
+                crate::common::image::clear_image_cache();
             }
             PreferencesDialogInput::ClickOpensDetailsChanged(value) => {
                 let _ = self.settings.set_boolean("click-opens-details", value);

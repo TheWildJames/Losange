@@ -45,6 +45,7 @@ pub struct Item {
     pub writers: Vec<String>,
     pub actors: Vec<String>,
     pub image: Option<Url>,
+    pub background: Option<Url>,
     pub shape: Shape,
     pub videos: Vec<Video>,
     pub new_videos: usize,
@@ -86,6 +87,7 @@ impl From<&MetaItemPreview> for Item {
             writers: get_links(&meta_item.links, "Writers"),
             actors: get_links(&meta_item.links, "Cast"),
             image: meta_item.poster.to_owned(),
+            background: meta_item.background.to_owned(),
             shape: meta_item.poster_shape.to_owned().into(),
             ..Default::default()
         }
