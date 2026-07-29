@@ -8,6 +8,7 @@ preferences: Preferences
 subtitles: Subtitles
 playback: Playback
 auto_play: Auto play next video
+click_opens_details: Open details on click
 
 shortcut_search: Open Search
 shortcut_preferences: Edit Preferences

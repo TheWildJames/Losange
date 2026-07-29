@@ -210,13 +210,16 @@ where
             ItemBoxInput::LoadImage => self.image.emit(ImageInput::Load),
             ItemBoxInput::Show => self.visible = true,
             ItemBoxInput::Hover(state) => self.hover = state,
-            ItemBoxInput::Clicked => match &self.last_stream {
-                Some(stream) => APP_BROKER.send(AppMsg::OpenStream(Box::new(stream.to_owned()))),
-                None => APP_BROKER.send(AppMsg::OpenDetails((
-                    self.id.to_owned(),
-                    self.r#type.to_owned(),
-                ))),
-            },
+            ItemBoxInput::Clicked => {
+                let open_details = self.settings.boolean("click-opens-details");
+                match (&self.last_stream, open_details) {
+                    (Some(stream), false) => APP_BROKER.send(AppMsg::OpenStream(Box::new(stream.to_owned()))),
+                    _ => APP_BROKER.send(AppMsg::OpenDetails((
+                        self.id.to_owned(),
+                        self.r#type.to_owned(),
+                    ))),
+                }
+            }
         }
     }
 }

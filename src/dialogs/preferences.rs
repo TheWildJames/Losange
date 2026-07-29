@@ -22,6 +22,7 @@ pub enum PreferencesDialogInput {
     CatalogsIconChanged(bool),
     CatalogsAddonNameChanged(bool),
     ContentTitlesBelowChanged(bool),
+    ClickOpensDetailsChanged(bool),
     DetailsContentColorsChanged(bool),
     DetailsContentLogoChanged(bool),
     PlayerResizeWindow(bool),
@@ -202,6 +203,15 @@ impl Component for PreferencesDialog {
                     set_title: &t!("playback"),
 
                     adw::SwitchRow {
+                        set_title: &t!("click_opens_details"),
+                        set_active: model.settings.boolean("click-opens-details"),
+                        connect_active_notify[sender] => move |row| {
+                            let value = row.is_active();
+                            sender.input(PreferencesDialogInput::ClickOpensDetailsChanged(value));
+                        }
+                    },
+
+                    adw::SwitchRow {
                         set_title: &t!("auto_play"),
                         set_active: ctx.settings.binge_watching,
                         connect_active_notify[sender] => move |row| {
@@ -300,6 +310,9 @@ impl Component for PreferencesDialog {
             }
             PreferencesDialogInput::CatalogsAddonNameChanged(value) => {
                 let _ = self.settings.set_boolean("catalog-addon-name", value);
+            }
+            PreferencesDialogInput::ClickOpensDetailsChanged(value) => {
+                let _ = self.settings.set_boolean("click-opens-details", value);
             }
             PreferencesDialogInput::ContentTitlesBelowChanged(value) => {
                 let _ = self.settings.set_boolean("content-title-below", value);

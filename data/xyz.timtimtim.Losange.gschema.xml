@@ -37,5 +37,9 @@
             <default>true</default>
             <summary>Automatically start server</summary>
         </key>
+        <key name="click-opens-details" type="b">
+            <default>false</default>
+            <summary>Open details screen on click instead of playing</summary>
+        </key>
     </schema>
 </schemalist>
