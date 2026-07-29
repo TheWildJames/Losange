@@ -4,6 +4,9 @@ use relm4::gtk::{self, glib::object::ObjectExt};
 
 pub fn create_css_provider() -> gtk::CssProvider {
     let css_provider = gtk::CssProvider::new();
+    css_provider.load_from_string(
+        ".episode-active { background: rgba(128,128,128,0.15); border-radius: 8px; }",
+    );
     if let Some(display) = gdk::Display::default() {
         gtk::style_context_add_provider_for_display(
             &display,

@@ -311,11 +311,13 @@ impl Sidebar {
                     number: video.episode.map_or(0, |episode| episode),
                     title: video.name.clone(),
                     description: video.description.clone(),
+                    image: video.image.clone(),
                     progress: last_watched.as_ref().and_then(|last_watched| {
                         (last_watched.id == video.id)
                             .then_some(NotNan::new(last_watched.progress).unwrap())
                     }),
-                    icon: "right",
+                    icon: "media-playback-start-symbolic",
+                    active: last_watched.as_ref().map_or(false, |lw| lw.id == video.id),
                 })
                 .collect_vec();
 
