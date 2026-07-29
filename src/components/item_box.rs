@@ -129,7 +129,7 @@ where
                                 gtk::Image {
                                     set_align: gtk::Align::Center,
                                     set_hexpand: true,
-                                    set_icon_name: Some("play"),
+                                    set_icon_name: Some("media-playback-start-symbolic"),
                                     set_icon_size: gtk::IconSize::Large,
 
                                     #[watch]
